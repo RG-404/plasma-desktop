@@ -29,7 +29,7 @@
 #include <KCModuleInfo>
 #include <KCModuleProxy>
 #include <KPluginSelector>
-
+#include <KNS3/Button>
 #include <QApplication>
 #include <QVBoxLayout>
 #include <QLabel>
@@ -73,12 +73,17 @@ SearchConfigModule::SearchConfigModule(QWidget* parent, const QVariantList& args
     headerLayout->addStretch();
     headerLayout->addWidget(clearHistoryButton);
 
+    QHBoxLayout *downloadLayout = new QHBoxLayout(this);
+    auto *downloadButton = new KNS3::Button(i18n("Download New Plugins..."), QStringLiteral("krunner.knsrc"), this);
+    downloadLayout->addWidget(downloadButton);
+
     m_pluginSelector = new KPluginSelector(this);
 
     connect(m_pluginSelector, &KPluginSelector::changed, this, QOverload<bool>::of(&SearchConfigModule::changed));
     connect(m_pluginSelector, &KPluginSelector::defaulted, this, &KCModule::defaulted);
 
     layout->addLayout(headerLayout);
+    layout->addLayout(downloadLayout);
     layout->addWidget(m_pluginSelector);
 }
 
